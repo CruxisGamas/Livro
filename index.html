@@ -11,8 +11,6 @@
       margin: 0;
       padding: 0;
       display: flex;
-      height: 100vh;
-      
     }
 
     #sidebar {
@@ -25,13 +23,10 @@
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.7);
       overflow-y: auto;
       border-right: 3px solid darkred;
-      transition: width 0.5s ease;
-      position: relative;
-      z-index: 2;
+      transition: width 1.5s ease;
     }
 
-    #sidebar:hover,
-    #sidebar.open {
+    #sidebar:hover {
       width: 250px;
     }
 
@@ -76,7 +71,6 @@
       background-color: #ecf0f1;
       font-size: 18px;
       line-height: 1.8;
-      overflow-y: auto;
     }
 
     #chapter-title {
@@ -100,19 +94,6 @@
       transition: opacity 1s ease-out;
       z-index: 1000;
     }
-
-    .fade-in {
-      animation: fadeIn 1.5s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
   </style>
 </head>
 <body>
@@ -132,7 +113,6 @@
     const chapterList = document.getElementById('chapter-list');
     const chapterTitle = document.getElementById('chapter-title');
     const chapterContent = document.getElementById('chapter-content');
-    const sidebar = document.getElementById('sidebar');
 
     for (let i = 1; i <= 40; i++) {
       const li = document.createElement('li');
@@ -146,7 +126,7 @@
     async function loadChapter(chapterNumber) {
       try {
         const response = await fetch(`./chapters/capitulo${chapterNumber}.txt`);
-        if (!response.ok) throw new Error("Capítulo não encontrado");
+        if (!response.ok) throw new Error("Capítulo não disponível");
 
         const text = await response.text();
         const [title, ...content] = text.split('\n');
@@ -160,11 +140,10 @@
           chapterContent.classList.add('fade-in');
         }, 100);
 
-        // Mantém a sidebar aberta por 3 segundos
-        sidebar.classList.add('open');
+        document.getElementById('sidebar').classList.add('open');
         setTimeout(() => {
-          sidebar.classList.remove('open');
-        }, 3000);
+          document.getElementById('sidebar').classList.remove('open');
+        }, 2000);
       } catch (error) {
         chapterContent.innerHTML = "<strong>Erro ao carregar o capítulo.</strong>";
       }
@@ -185,8 +164,8 @@
       setTimeout(() => {
         document.getElementById('intro-image').style.display = 'none';
         document.getElementById('content').style.display = 'block';
-        sidebar.style.display = 'block';
-      }, 1100);
+        document.getElementById('sidebar').style.display = 'block';
+      }, 1000);
     }, 3000);
   </script>
 </body>
