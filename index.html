@@ -14,7 +14,8 @@
     }
     #sidebar {
       display: none;
-      width: 98px;
+      width: 250px;
+      min-width: 250px;
       background-color: #1b1b1b;
       color: white;
       padding: 20px;
@@ -145,7 +146,7 @@ async function loadChapter(chapterNumber) {
     chapterContent.classList.remove('fade-in');
 
     setTimeout(() => {
-      chapterContent.textContent = content.join('\n');
+      chapterContent.innerHTML = content.map(line => line.trim()).join('<br>');
       chapterContent.classList.add('fade-in');
     }, 100);
   } catch (error) {
