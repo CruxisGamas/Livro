@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Última Resistência</title>
+  <style>
+    body {
+      background-color: black;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    #sidebar {
+      width: 150px;
+      max-width: 35%;
+      background-color: #1b1b1b;
+      color: white;
+      padding: 20px;
+      height: 100vh;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.7);
+      overflow-y: auto;
+      border-right: 3px solid darkred;
+      transition: width 0.3s ease;
+    }
+
+    #sidebar:hover {
+      width: 200px;
+    }
+
+    #sidebar h2 {
+      color: darkred;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+      margin-bottom: 20px;
+    }
+
+    #sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    #sidebar ul li {
+      margin: 10px 0;
+    }
+
+    #sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      display: block;
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    #sidebar ul li a:hover {
+      background-color: darkred;
+      color: white;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+
+    #content {
+      flex-grow: 1;
+      padding: 40px;
+      background-color: #ecf0f1;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    #chapter-title {
+      font-size: 32px;
+      margin-bottom: 15px;
+      color: darkred;
+      text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+    }
+
+    #chapter-content {
+      white-space: pre-wrap;
+    }
+
+    #intro {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      color: darkred;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      opacity: 1;
+      transition: opacity 1s ease-out;
+      z-index: 1000;
+    }
+
+    #intro h1 {
+      text-shadow: 0 0 8px darkred;
+      font-size: 2.5em;
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: darkred;
+    }
+
+    #intro h6 {
+      font-size: 15px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div id="intro">
+    <h1>A Última Resistência</h1>
+    <h6>Por: Victória Tardochi</h6>
+  </div>
+
+  <div id="sidebar">
+    <h2>Capítulos</h2>
+    <ul id="chapter-list"></ul>
+  </div>
+
+  <div id="content">
+    <h1 id="chapter-title">Introdução</h1>
+    <p id="chapter-content">Escolha um dos capítulos para começar sua leitura!</p>
+  </div>
+
+  <script>
+    const chapterList = document.getElementById('chapter-list');
+    const chapterTitle = document.getElementById('chapter-title');
+    const chapterContent = document.getElementById('chapter-content');
+
+    for (let i = 1; i <= 40; i++) {
+      const li = document.createElement('li');
+      const link = document.createElement('a');
+      link.textContent = `Capítulo ${i}`;
+      link.onclick = () => loadChapter(i);
+      li.appendChild(link);
+      chapterList.appendChild(li);
+    }
+
+    async function loadChapter(chapterNumber) {
+      try {
+        const response = await fetch(`./chapters/capitulo${chapterNumber}.txt`);
+        if (!response.ok) throw new Error("Capítulo não encontrado");
+
+        const text = await response.text();
+        const [title, ...content] = text.split('\n');
+
+        chapterTitle.innerHTML = '';
+        typeWriterEffect(chapterTitle, title);
+        chapterContent.classList.remove('fade-in');
+
+        setTimeout(() => {
+          chapterContent.innerHTML = content.join('<br>');
+          chapterContent.classList.add('fade-in');
+        }, 100);
+      } catch (error) {
+        chapterContent.innerHTML = "<strong>Erro ao carregar o capítulo.</strong>";
+      }
+    }
+
+    function typeWriterEffect(element, text) {
+      let i = 0;
+      element.innerHTML = '';
+      const interval = setInterval(() => {
+        element.innerHTML += text.charAt(i);
+        i++;
+        if (i >= text.length) clearInterval(interval);
+      }, 40);
+    }
+
+    setTimeout(() => {
+      document.getElementById('intro').style.opacity = 0;
+      setTimeout(() => {
+        document.getElementById('intro').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+        document.getElementById('sidebar').style.display = 'block';
+      }, 1100);
+    }, 2000);
+  </script>
+</body>
+</html>
