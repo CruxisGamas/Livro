@@ -11,7 +11,8 @@
       margin: 0;
       padding: 0;
       display: flex;
-      overflow: hidden;
+      height: 100vh;
+      
     }
 
     #sidebar {
@@ -29,10 +30,7 @@
       z-index: 2;
     }
 
-    #sidebar:hover {
-      width: 250px;
-    }
-
+    #sidebar:hover,
     #sidebar.open {
       width: 250px;
     }
@@ -78,6 +76,7 @@
       background-color: #ecf0f1;
       font-size: 18px;
       line-height: 1.8;
+      overflow-y: auto;
     }
 
     #chapter-title {
@@ -101,6 +100,19 @@
       transition: opacity 1s ease-out;
       z-index: 1000;
     }
+
+    .fade-in {
+      animation: fadeIn 1.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body>
@@ -120,6 +132,7 @@
     const chapterList = document.getElementById('chapter-list');
     const chapterTitle = document.getElementById('chapter-title');
     const chapterContent = document.getElementById('chapter-content');
+    const sidebar = document.getElementById('sidebar');
 
     for (let i = 1; i <= 40; i++) {
       const li = document.createElement('li');
@@ -148,10 +161,10 @@
         }, 100);
 
         // Mantém a sidebar aberta por 3 segundos
-        document.getElementById('sidebar').classList.add('open');
-setTimeout(() => {
-  document.getElementById('sidebar').classList.remove('open');
-}, 2800); 
+        sidebar.classList.add('open');
+        setTimeout(() => {
+          sidebar.classList.remove('open');
+        }, 3000);
       } catch (error) {
         chapterContent.innerHTML = "<strong>Erro ao carregar o capítulo.</strong>";
       }
@@ -172,8 +185,8 @@ setTimeout(() => {
       setTimeout(() => {
         document.getElementById('intro-image').style.display = 'none';
         document.getElementById('content').style.display = 'block';
-        document.getElementById('sidebar').style.display = 'block';
-      }, 1000);
+        sidebar.style.display = 'block';
+      }, 1100);
     }, 3000);
   </script>
 </body>
