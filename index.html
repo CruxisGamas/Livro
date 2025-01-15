@@ -11,6 +11,7 @@
       margin: 0;
       padding: 0;
       display: flex;
+      overflow: hidden;
     }
 
     #sidebar {
@@ -23,7 +24,9 @@
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.7);
       overflow-y: auto;
       border-right: 3px solid darkred;
-      transition: width 1.5s ease;
+      transition: width 0.5s ease;
+      position: relative;
+      z-index: 2;
     }
 
     #sidebar:hover {
@@ -145,11 +148,10 @@
         }, 100);
 
         // Mantém a sidebar aberta por 3 segundos
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.add('open');
-        setTimeout(() => {
-          sidebar.classList.remove('open');
-        }, 3000);
+        document.getElementById('sidebar').classList.add('open');
+setTimeout(() => {
+  document.getElementById('sidebar').classList.remove('open');
+}, 2800); 
       } catch (error) {
         chapterContent.innerHTML = "<strong>Erro ao carregar o capítulo.</strong>";
       }
@@ -162,7 +164,7 @@
         element.innerHTML += text.charAt(i);
         i++;
         if (i >= text.length) clearInterval(interval);
-      }, 40);
+      }, 50);
     }
 
     setTimeout(() => {
