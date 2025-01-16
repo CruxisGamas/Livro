@@ -67,7 +67,7 @@
 
     #content {
       flex-grow: 1;
-      padding: 40px;
+      padding: 30px;
       background-color: #ecf0f1;
       font-size: 18px;
       line-height: 1.8;
@@ -114,7 +114,7 @@
 
   <div id="content">
     <h1 id="chapter-title">Bem-vindo!</h1>
-    <p id="chapter-content">Escolha um capítulo para começar sua leitura. Recomendo ir pelo capítulo 1</p>
+    <p id="chapter-content">Clique nos capítulos para começar sua leitura.</p>
   </div>
 
   <script>
@@ -169,7 +169,7 @@ function typeWriterEffect(element, text) {
     element.innerHTML += text.charAt(i);
     i++;
     if (i >= text.length) clearInterval(typingInterval);
-  }, 50);
+  }, 40);
 }
 const progressBar = document.createElement('div');
 progressBar.id = 'progress-bar';
