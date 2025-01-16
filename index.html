@@ -102,21 +102,42 @@
       transition: opacity 1s ease-out;
       z-index: 1000;
     }
+  #visitor-container {
+    position: fixed;
+    top: 0;
+    left: 10%;
+    transform: translateX(-50%);
+    background: darkred;
+    color: white;
+    padding: 1px 8px;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 0 0 5px 5px;
+    z-index: 1000;
+}
   </style>
 </head>
 <body>
   <div id="intro-image"></div>
 
-  <div id="sidebar">
-    <h2>Capítulos</h2>
-    <ul id="chapter-list"></ul>
-  </div>
+  
+ 
 
   <div id="content">
     <h1 id="chapter-title">Bem-vindo!</h1>
     <p id="chapter-content">Clique nos capítulos para começar sua leitura.</p>
   </div>
-
+  
+   <div id="sidebar">
+    <h2>Capítulos</h2>
+    <ul id="chapter-list"></ul>
+  </div>
+  
+<div id="visitor-container">
+    <p>Visitantes: <span id="visitor-count">0</span></p>
+</div>
+  
   <script>
     const chapterList = document.getElementById('chapter-list');
     const chapterTitle = document.getElementById('chapter-title');
@@ -180,15 +201,31 @@ window.addEventListener('scroll', () => {
   const percent = (window.scrollY / maxScroll) * 100;
   progressBar.style.width = percent + '%';
 });
+    document.addEventListener("DOMContentLoaded", () => {
+    let visitantes = localStorage.getItem("visitantes") || 0;
     
+    if (!localStorage.getItem("jaVisitou")) {
+        visitantes++;
+        localStorage.setItem("visitantes", visitantes);
+        localStorage.setItem("jaVisitou", "true");
+    }
+
+    document.getElementById("visitor-count").textContent = visitantes;
+});
+      
+      
     setTimeout(() => {
       document.getElementById('intro-image').style.opacity = 0;
       setTimeout(() => {
         document.getElementById('intro-image').style.display = 'none';
         document.getElementById('content').style.display = 'block';
+        
+document.getElementById('visitor-container').style.display = 'block';
         document.getElementById('sidebar').style.display = 'block';
       }, 1000);
     }, 3000);
+      
+      
   </script>
 </body>
 </html>
